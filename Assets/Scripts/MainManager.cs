@@ -43,7 +43,7 @@ public class MainManager : MonoBehaviour
 
         if (MenuManager.Instance.HighScoreTable.Count == 0)
         {
-            BestScoreText.text = $"Best Score: :0";
+            BestScoreText.text = $"Best Score:  :0";
         }
         else
         {
