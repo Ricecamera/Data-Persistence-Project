@@ -88,16 +88,16 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
+        if (MenuManager.Instance)
+        {
+            MenuManager.Instance.AddData(m_Player, m_Points);
+        }
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
 
     public void GoToNextScene()
     {
-        if (MenuManager.Instance)
-        {
-            MenuManager.Instance.AddData(m_Player, m_Points);
-        }
         SceneManager.LoadScene(2);
     }
 }

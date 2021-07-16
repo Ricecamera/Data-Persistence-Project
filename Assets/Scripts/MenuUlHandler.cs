@@ -12,7 +12,19 @@ using UnityEditor;
 public class MenuUlHandler : MonoBehaviour
 {
     public InputField in_playerName;
+    public Text BestScoreText;
 
+    public void Start()
+    {
+        in_playerName.text = MenuManager.Instance.playerName;
+
+        if (MenuManager.Instance.HighScoreTable.Count > 0)
+        {
+            string bestScoreName = MenuManager.Instance.HighScoreTable[0].playerName;
+            int bestScore = MenuManager.Instance.HighScoreTable[0].score;
+            BestScoreText.text = $"Best Score: {bestScoreName} : {bestScore}";
+        }
+    }
     public void StartGame()
     {
         string name = in_playerName.text;
@@ -30,6 +42,7 @@ public class MenuUlHandler : MonoBehaviour
 
     public void Exit()
     {
+        MenuManager.Instance.SaveData();
 #if UNITY_EDITOR
         EditorApplication.ExitPlaymode();
 #else

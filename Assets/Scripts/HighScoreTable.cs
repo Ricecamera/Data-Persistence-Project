@@ -16,7 +16,7 @@ public class HighScoreTable : MonoBehaviour
     {
         entryTemplate.gameObject.SetActive(false);
 
-        ShowHighScoreTable(entryContainer, highscoreEntryList);
+        ShowHighScoreTable(entryContainer, MenuManager.Instance.HighScoreTable);
     }
 
     private void ShowHighScoreTable(Transform container, List<HighScore> highScoresList)
@@ -40,6 +40,7 @@ public class HighScoreTable : MonoBehaviour
 
     public void GoToNextScene()
     {
+        MenuManager.Instance.SaveData();
         SceneManager.LoadScene(0);
     }
 }

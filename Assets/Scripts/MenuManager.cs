@@ -10,6 +10,7 @@ public class HighScore
     public string playerName;
     public int score;
 }
+    
 
 [System.Serializable]
 public class HighScoreCollection
@@ -17,13 +18,35 @@ public class HighScoreCollection
     public List<HighScore> highScores;
 }
 
+public class CompareByScore : IComparer<HighScore>
+{
+    public int Compare(HighScore x, HighScore y)
+    {
+        if (x == null)
+        {
+            if (y == null)
+            {
+                return 0;
+            }
+            return 1;
+        }
+        else
+        {
+            if (y == null)
+            {
+                return -1;
+            }
+            return y.score.CompareTo(x.score);
+        }
+    }
+}
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance { get; private set; }
 
     public string playerName;
 
-    public List<HighScore> m_highScoreTable = null; // save data that is used for loading from and saving into file
+    private List<HighScore> m_highScoreTable = null; // save data that is used for loading from and saving into file
     public List<HighScore> HighScoreTable
     {
         get
@@ -50,6 +73,7 @@ public class MenuManager : MonoBehaviour
         {
             return false;
         }
+        playerName = name;
         return true;
     }
 
@@ -92,6 +116,9 @@ public class MenuManager : MonoBehaviour
                     m_highScoreTable[found].score = score;
                 }
             }
+
+            CompareByScore cs = new CompareByScore();
+            m_highScoreTable.Sort(cs);
         }
     }
 }
