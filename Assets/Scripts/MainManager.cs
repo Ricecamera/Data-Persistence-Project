@@ -38,9 +38,15 @@ public class MainManager : MonoBehaviour
             }
         }
 
-        if (MenuManager.Instance.m_highScoreTable == null)
+        if (MenuManager.Instance.HighScoreTable.Count == 0)
         {
             BestScoreText.text = $"Best Score: :0";
+        }
+        else
+        {
+            string bestScoreName = MenuManager.Instance.HighScoreTable[0].playerName;
+            int bestScore = MenuManager.Instance.HighScoreTable[0].score;
+            BestScoreText.text = $"Best Score: {bestScoreName} : {bestScore}";
         }
         
     }

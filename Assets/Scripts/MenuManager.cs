@@ -24,8 +24,8 @@ public class MenuManager : MonoBehaviour
     private string playerName;
     private int playerScore = 0;
 
-    public HighScoreCollection m_highScoreTable = null; // save data that is used for loading from and saving into file
-    public HighScoreCollection HighScoreTable
+    public List<HighScore> m_highScoreTable = null; // save data that is used for loading from and saving into file
+    public List<HighScore> HighScoreTable
     {
         get
         {
@@ -45,16 +45,13 @@ public class MenuManager : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void SetPlayerName(string name)
+    public bool SetPlayerName(string name)
     {
-        if (name == null)
+        if (name == "")
         {
-            Debug.LogError("Please try a name");
+            return false;
         }
-        else
-        {
-            playerName = name;
-        }
+        return true;
     }
 
     public void LoadData()
@@ -63,13 +60,16 @@ public class MenuManager : MonoBehaviour
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
-            m_highScoreTable = JsonUtility.FromJson<HighScoreCollection>(json);
+            HighScoreCollection data = JsonUtility.FromJson<HighScoreCollection>(json);
+            m_highScoreTable = data.highScores;
         }
     }
 
     public void SaveData()
     {
-        string json = JsonUtility.ToJson(m_highScoreTable);
+        HighScoreCollection saveData = new HighScoreCollection();
+        saveData.highScores = m_highScoreTable;
+        string json = JsonUtility.ToJson(saveData);
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
     }
 
@@ -77,20 +77,20 @@ public class MenuManager : MonoBehaviour
     {
         if (name != null)
         {
-            int found = m_highScoreTable.highScores.FindIndex(item => item.playerName == name);
+            int found = m_highScoreTable.FindIndex(item => item.playerName == name);
 
             if (found == -1)
             {
                 HighScore newData = new HighScore();
                 newData.playerName = playerName;
                 newData.score = score;
-                m_highScoreTable.highScores.Add(newData);
+                m_highScoreTable.Add(newData);
             }
             else
             {
-                if (m_highScoreTable.highScores[found].score < score)
+                if (m_highScoreTable[found].score < score)
                 {
-                    m_highScoreTable.highScores[found].score = score;
+                    m_highScoreTable[found].score = score;
                 }
             }
         }

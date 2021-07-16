@@ -15,14 +15,21 @@ public class MenuUlHandler : MonoBehaviour
 
     public void StartGame()
     {
-        name = in_playerName.text;
-        MenuManager.Instance.SetPlayerName(name);
-        SceneManager.LoadScene(1);
+        string name = in_playerName.text;
+        bool valid = MenuManager.Instance.SetPlayerName(name);
+        if (valid)
+        {
+            SceneManager.LoadScene(1);
+        }
+        else
+        {
+            Debug.LogError("Please try a name");
+        }
+        
     }
 
     public void Exit()
     {
-        MenuManager.Instance.SaveData();
 #if UNITY_EDITOR
         EditorApplication.ExitPlaymode();
 #else
