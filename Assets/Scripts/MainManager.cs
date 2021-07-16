@@ -13,9 +13,10 @@ public class MainManager : MonoBehaviour
     public Text ScoreText;
     public Text BestScoreText;
     public GameObject GameOverText;
-    
+
+    private string m_Player;
     private bool m_Started = false;
-    private int m_Points;
+    private int m_Points = 0;
     
     private bool m_GameOver = false;
 
@@ -38,6 +39,8 @@ public class MainManager : MonoBehaviour
             }
         }
 
+        if (!MenuManager.Instance) return; // if Instance is null don't run code below
+
         if (MenuManager.Instance.HighScoreTable.Count == 0)
         {
             BestScoreText.text = $"Best Score: :0";
@@ -48,6 +51,8 @@ public class MainManager : MonoBehaviour
             int bestScore = MenuManager.Instance.HighScoreTable[0].score;
             BestScoreText.text = $"Best Score: {bestScoreName} : {bestScore}";
         }
+
+        m_Player = MenuManager.Instance.playerName;
         
     }
 
@@ -85,5 +90,14 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+    }
+
+    public void GoToNextScene()
+    {
+        if (MenuManager.Instance)
+        {
+            MenuManager.Instance.AddData(m_Player, m_Points);
+        }
+        SceneManager.LoadScene(2);
     }
 }

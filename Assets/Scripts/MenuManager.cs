@@ -21,8 +21,7 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance { get; private set; }
 
-    private string playerName;
-    private int playerScore = 0;
+    public string playerName;
 
     public List<HighScore> m_highScoreTable = null; // save data that is used for loading from and saving into file
     public List<HighScore> HighScoreTable
